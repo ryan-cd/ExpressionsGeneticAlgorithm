@@ -12,8 +12,8 @@ private:
 	unsigned int mutationRate;
 	unsigned int genesPerChromosome;
 	unsigned int generation;
-	vector<Chromosome *> chromosomeContainer1;
-	vector<Chromosome *> chromosomeContainer2;
+	vector<shared_ptr<Chromosome>> chromosomeContainer1;
+	vector<shared_ptr<Chromosome>> chromosomeContainer2;
 
 public:
 	Controller(const unsigned int maxPopulationSize, 
@@ -23,7 +23,7 @@ public:
 		const int target);
 	void start();
 	void nextGeneration();
-	void cleanupChromosomeContainer(vector<Chromosome *> *chromosomeContainer);
+	void cleanupChromosomeContainer(vector<shared_ptr<Chromosome>> *chromosomeContainer);
 };
 
 #endif

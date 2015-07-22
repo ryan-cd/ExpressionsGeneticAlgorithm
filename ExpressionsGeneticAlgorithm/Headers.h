@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib> //needed for srand
 #include <cstdio> //needed for getchar()
+#include <memory>
 #include <time.h>
 #include <string>
 #include <vector>
