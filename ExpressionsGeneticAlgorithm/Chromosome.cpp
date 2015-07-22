@@ -11,3 +11,8 @@ Chromosome::Chromosome(unsigned int genesPerChromosome)
 
 	this->bitString = tempString;
 }
+
+string Chromosome::getBitString()
+{
+	return this->bitString;
+}
