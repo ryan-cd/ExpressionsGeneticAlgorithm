@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClInclude Include="Chromosome.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="GeneManager.h" />
     <ClInclude Include="Headers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

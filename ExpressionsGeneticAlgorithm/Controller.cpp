@@ -4,7 +4,7 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	const unsigned int crossoverRate, 
 	const unsigned int mutationRate, 
 	const unsigned int genesPerChromosome,
-	const int target)
+	const float target)
 {
 	this->maxPopulationSize = maxPopulationSize;
 	this->crossoverRate = crossoverRate;
@@ -13,37 +13,51 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	this->generation = 0;
 }
 
-void Controller::start()
+void Controller::init()
 {
 	for (int i = 0; i < maxPopulationSize; i++)
 	{
-		chromosomeContainer1.push_back(make_shared<Chromosome>(genesPerChromosome));
-		chromosomeContainer2.push_back(make_shared<Chromosome>(genesPerChromosome));
+		chrmContainer1.push_back(make_shared<Chromosome>(genesPerChromosome));
+		chrmContainer2.push_back(make_shared<Chromosome>(genesPerChromosome));
 	}
-
-	cout << "\n initial length " << chromosomeContainer1.size() << "~~" << (*chromosomeContainer1[0]).getBitString();
-	for (int i = 0; i < 10; i++)
-		nextGeneration();
 }
 
-void Controller::nextGeneration()
+string Controller::generateTarget()
+{
+	init();
+
+	return "Hello world!";
+}
+
+void assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer)
+{
+	for (int i = 0; i < (*chrmContainer).size(); i++)
+	{
+		//float fitness = 1 / (this->target - );
+		(*(*chrmContainer)[i]).setFitness(1);
+	}
+}
+
+void Controller::createGeneration()
 {
 	cout << "\nGeneration " << ++generation << endl;
 
 	if (generation % 2 != 0)
-		cleanupChromosomeContainer(&chromosomeContainer1);
+		cleanupChrmContainer(&chrmContainer1);
 	else
-		cleanupChromosomeContainer(&chromosomeContainer2);
+		cleanupChrmContainer(&chrmContainer2);
 
-	cout << "\n after length is " << chromosomeContainer1.size() << " length: " << chromosomeContainer2.size();
+	cout << "\n after length is " << chrmContainer1.size() << " length: " << chrmContainer2.size();
 }
 
-void Controller::cleanupChromosomeContainer(vector<shared_ptr<Chromosome>> *chromosomeContainer)
+void Controller::cleanupChrmContainer(vector<shared_ptr<Chromosome>> *chrmContainer)
 {
-	/*for (int i = (*chromosomeContainer).size() - 1; i >= 0;  i--)
+	/*for (int i = (*chrmContainer).size() - 1; i >= 0;  i--)
 	{
-		delete (*chromosomeContainer)[i];
-		(*chromosomeContainer).erase((*chromosomeContainer).begin() + i);
+		delete (*chrmContainer)[i];
+		(*chrmContainer).erase((*chrmContainer).begin() + i);
 	}*/
 }
+
+
 

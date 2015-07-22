@@ -8,7 +8,7 @@ class Chromosome
 {
 private:
 	string bitString;
-	unsigned int fitness;
+	float fitness;
 
 public:
 	Chromosome(unsigned int genesPerChromosome);
@@ -19,7 +19,9 @@ public:
 	unsigned int getFitness();
 	
 	//mutators
+	void setFitness(float newFitness);
 	void setBitStringAt(unsigned int index, unsigned int value);
+
 };
 
 #endif

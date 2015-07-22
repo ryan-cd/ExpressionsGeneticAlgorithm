@@ -12,7 +12,14 @@ Chromosome::Chromosome(unsigned int genesPerChromosome)
 	this->bitString = tempString;
 }
 
+//getters
 string Chromosome::getBitString()
 {
 	return this->bitString;
+}
+
+//setters
+void Chromosome::setFitness(float newFitness)
+{
+	this->fitness = newFitness;
 }

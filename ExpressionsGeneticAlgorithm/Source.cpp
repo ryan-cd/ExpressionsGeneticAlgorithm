@@ -22,7 +22,9 @@ int main()
 	cout << "Welcome to Expressions Genetic Algorithm. Target is " << target << endl;
 
 	Controller controller(maxPopulationSize, crossoverRate, mutationRate, genesPerChromosome, target);
-	controller.start();
+	string result = controller.generateTarget();
+
+	cout << "Result: " << result;
 
 	getchar();
 
