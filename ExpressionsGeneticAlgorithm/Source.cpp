@@ -16,7 +16,7 @@ const int target = 42;
 ////////////////////////////////////////
 
 
-void main()
+int main()
 {
 	srand(time(NULL));
 	cout << "Welcome to Expressions Genetic Algorithm. Target is " << target << endl;
@@ -25,4 +25,6 @@ void main()
 	controller.start();
 
 	getchar();
+
+	return 0;
 }
