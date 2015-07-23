@@ -3,10 +3,12 @@
 
 #include "Headers.h"
 #include "Chromosome.h"
+#include "GeneManager.h"
 
 class Controller
 {
 private:
+	shared_ptr<GeneManager> geneManager;
 	unsigned int maxPopulationSize;
 	unsigned int crossoverRate;
 	unsigned int mutationRate;
@@ -26,7 +28,6 @@ public:
 	Controller(const unsigned int maxPopulationSize, 
 		const unsigned int crossoverRate, 
 		const unsigned int mutationRate, 
-		const unsigned int genesPerChromosome,
 		const float target);
 	
 	string generateTarget();

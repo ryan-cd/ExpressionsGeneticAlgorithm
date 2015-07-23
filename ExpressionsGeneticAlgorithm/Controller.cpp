@@ -3,9 +3,9 @@
 Controller::Controller(const unsigned int maxPopulationSize, 
 	const unsigned int crossoverRate, 
 	const unsigned int mutationRate, 
-	const unsigned int genesPerChromosome,
 	const float target)
 {
+	this->geneManager = make_shared<GeneManager>(target);
 	this->maxPopulationSize = maxPopulationSize;
 	this->crossoverRate = crossoverRate;
 	this->mutationRate = mutationRate;
