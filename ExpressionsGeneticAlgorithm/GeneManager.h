@@ -7,11 +7,12 @@ class GeneManager{
 private:
 	float target;
 	unsigned int genesPerChromosome;
+	unsigned int geneLength;
 	void setTranslations();
 
 public:
 	GeneManager(float target);
-	map<string, string> geneTranslations;
+	vector<pair<string, string>> geneTranslations;
 	string toBitString(string expressionString);
 	string toExpressionString(string bitString);
 	unsigned int getGenesPerChrm();
