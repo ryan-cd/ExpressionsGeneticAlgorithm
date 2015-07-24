@@ -11,6 +11,9 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	this->mutationRate = mutationRate;
 	this->genesPerChromosome = genesPerChromosome;
 	this->generation = 0;
+
+	Chromosome chrm(9, "011010100101110001001101001010100001");
+	cout << (*geneManager).getFitness(chrm);
 }
 
 void Controller::init()
