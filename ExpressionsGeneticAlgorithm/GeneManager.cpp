@@ -80,6 +80,11 @@ unsigned int GeneManager::getGenesPerChrm()
 	return this->genesPerChromosome;
 }
 
+unsigned int GeneManager::getGeneLength()
+{
+	return this->geneLength;
+}
+
 float GeneManager::getFitness(Chromosome chromosome)
 {
 	string expression = toExpressionString(chromosome.getBitString());

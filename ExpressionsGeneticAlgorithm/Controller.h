@@ -13,6 +13,7 @@ private:
 	unsigned int crossoverRate;
 	unsigned int mutationRate;
 	unsigned int genesPerChromosome;
+	unsigned int geneLength;
 	unsigned int generation;
 	vector<shared_ptr<Chromosome>> chrmContainer1;
 	vector<shared_ptr<Chromosome>> chrmContainer2;

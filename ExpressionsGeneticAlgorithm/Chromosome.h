@@ -11,8 +11,8 @@ private:
 	float fitness;
 
 public:
-	Chromosome(unsigned int genesPerChromosome);
-	Chromosome(unsigned int genesPerChromosome, string bitString);
+	Chromosome(unsigned int genesPerChromosome, unsigned int geneLength);
+	Chromosome(unsigned int genesPerChromosome, unsigned int geneLength, string bitString);
 
 	//getters
 	string getBitString();

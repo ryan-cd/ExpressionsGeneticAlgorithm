@@ -9,11 +9,13 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	this->maxPopulationSize = maxPopulationSize;
 	this->crossoverRate = crossoverRate;
 	this->mutationRate = mutationRate;
+
 	this->genesPerChromosome = (*geneManager).getGenesPerChrm();
+	this->geneLength = (*geneManager).getGeneLength();
 	this->generation = 0;
 	
 	//Chromosome chrm(9, "011010100101110001001101001010100001");
-	Chromosome chrm(9, "001001100000101110010111101110111111");
+	Chromosome chrm(this->genesPerChromosome, this->geneLength, "001001100000101110010111101110111111");
 	cout << (*geneManager).getFitness(chrm);
 }
 
@@ -21,8 +23,8 @@ void Controller::init()
 {
 	for (int i = 0; i < maxPopulationSize; i++)
 	{
-		chrmContainer1.push_back(make_shared<Chromosome>(genesPerChromosome));
-		chrmContainer2.push_back(make_shared<Chromosome>(genesPerChromosome));
+		chrmContainer1.push_back(make_shared<Chromosome>(this->genesPerChromosome, this->geneLength));
+		chrmContainer2.push_back(make_shared<Chromosome>(this->genesPerChromosome, this->geneLength));
 	}
 }
 

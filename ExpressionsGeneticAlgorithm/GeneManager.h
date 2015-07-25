@@ -17,6 +17,7 @@ public:
 	string toBitString(string expressionString);
 	string toExpressionString(string bitString);
 	unsigned int getGenesPerChrm();
+	unsigned int getGeneLength();
 	float getFitness(Chromosome chromosome);
 };
 

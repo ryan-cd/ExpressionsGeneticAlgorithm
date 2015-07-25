@@ -1,10 +1,10 @@
 #include "Chromosome.h"
 
-Chromosome::Chromosome(unsigned int genesPerChromosome)
+Chromosome::Chromosome(unsigned int genesPerChromosome, unsigned int geneLength)
 {
 	string tempString = "";
 	
-	for (int i = 0; i < genesPerChromosome * 4; i++)
+	for (int i = 0; i < genesPerChromosome * geneLength; i++)
 	{
 		tempString += ((float)rand() / (float)RAND_MAX > 0.5) ? "0" : "1";
 	}
@@ -13,7 +13,7 @@ Chromosome::Chromosome(unsigned int genesPerChromosome)
 	this->fitness = 0;
 }
 
-Chromosome::Chromosome(unsigned int genesPerChromosome, string bitString)
+Chromosome::Chromosome(unsigned int genesPerChromosome, unsigned int geneLength, string bitString)
 {
 	this->bitString = bitString;
 }
