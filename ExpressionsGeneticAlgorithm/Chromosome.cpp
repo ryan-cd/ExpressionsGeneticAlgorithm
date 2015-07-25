@@ -10,6 +10,7 @@ Chromosome::Chromosome(unsigned int genesPerChromosome)
 	}
 
 	this->bitString = tempString;
+	this->fitness = 0;
 }
 
 Chromosome::Chromosome(unsigned int genesPerChromosome, string bitString)
@@ -21,6 +22,11 @@ Chromosome::Chromosome(unsigned int genesPerChromosome, string bitString)
 string Chromosome::getBitString()
 {
 	return this->bitString;
+}
+
+float Chromosome::getFitness()
+{
+	return this->fitness;
 }
 
 //setters

@@ -56,7 +56,8 @@ string GeneManager::toExpressionString(string bitString)
 		for (int j = 0; j < geneTranslations.size(); j++)
 		{
 			if (bitString.substr(i, this->geneLength) == this->geneTranslations[j].first
-				&& ((lastLeafType == NUMBER && j > 9 && i < bitString.size() - this->geneLength) || lastLeafType == OPERATOR && j <= 9))
+				&& ((lastLeafType == NUMBER && j > 9 && i < bitString.size() - this->geneLength) 
+				|| lastLeafType == OPERATOR && j <= 9))
 			{
 				result += this->geneTranslations[j].second;
 				if (j <= 9)
@@ -67,6 +68,10 @@ string GeneManager::toExpressionString(string bitString)
 
 		}
 	}
+
+	if (lastLeafType == OPERATOR)
+		result = result.substr(0, result.size() - 1);
+
 	return result;
 }
 
@@ -78,6 +83,9 @@ unsigned int GeneManager::getGenesPerChrm()
 float GeneManager::getFitness(Chromosome chromosome)
 {
 	string expression = toExpressionString(chromosome.getBitString());
+
+	if (expression == "")
+		return 0;
 
 	float currentResult = (int)expression[0] - '0';
 	for (int i = 0; i < expression.size()-1; i += 2)

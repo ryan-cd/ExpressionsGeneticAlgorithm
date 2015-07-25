@@ -9,10 +9,11 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	this->maxPopulationSize = maxPopulationSize;
 	this->crossoverRate = crossoverRate;
 	this->mutationRate = mutationRate;
-	this->genesPerChromosome = genesPerChromosome;
+	this->genesPerChromosome = (*geneManager).getGenesPerChrm();
 	this->generation = 0;
-
-	Chromosome chrm(9, "011010100101110001001101001010100001");
+	
+	//Chromosome chrm(9, "011010100101110001001101001010100001");
+	Chromosome chrm(9, "001001100000101110010111101110111111");
 	cout << (*geneManager).getFitness(chrm);
 }
 
@@ -28,39 +29,42 @@ void Controller::init()
 string Controller::generateTarget()
 {
 	init();
-
+	assignFitnesses(&chrmContainer1);
+	printContainer(&chrmContainer1);
 	return "Hello world!";
 }
 
-void assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer)
+void Controller::printContainer(vector<shared_ptr<Chromosome>>* container)
+{
+	cout << "\nPrinting container";
+	for (int i = 0; i < (*container).size(); i++)
+	{
+		cout << "expression: " << (*geneManager).toExpressionString((*(*container)[i]).getBitString());
+		cout << " fitness: " << (*(*container)[i]).getFitness() << endl;
+	}
+}
+
+void Controller::assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer)
 {
 	for (int i = 0; i < (*chrmContainer).size(); i++)
 	{
-		//float fitness = 1 / (this->target - );
-		(*(*chrmContainer)[i]).setFitness(1);
+		(*(*chrmContainer)[i]).setFitness((*this->geneManager).getFitness((*(*chrmContainer)[i])));
 	}
 }
 
 void Controller::createGeneration()
 {
 	cout << "\nGeneration " << ++generation << endl;
-
+	/*
 	if (generation % 2 != 0)
 		cleanupChrmContainer(&chrmContainer1);
 	else
-		cleanupChrmContainer(&chrmContainer2);
+		cleanupChrmContainer(&chrmContainer2);*/
 
 	cout << "\n after length is " << chrmContainer1.size() << " length: " << chrmContainer2.size();
 }
 
-void Controller::cleanupChrmContainer(vector<shared_ptr<Chromosome>> *chrmContainer)
-{
-	/*for (int i = (*chrmContainer).size() - 1; i >= 0;  i--)
-	{
-		delete (*chrmContainer)[i];
-		(*chrmContainer).erase((*chrmContainer).begin() + i);
-	}*/
-}
+
 
 
 

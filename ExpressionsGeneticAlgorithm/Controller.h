@@ -22,7 +22,6 @@ private:
 	vector<int> chrmsToBreed();
 	void mutateChrm(shared_ptr<Chromosome> chromosome);
 	void createGeneration();
-	void cleanupChrmContainer(vector<shared_ptr<Chromosome>>* chrmContainer);
 
 public:
 	Controller(const unsigned int maxPopulationSize, 
@@ -31,7 +30,7 @@ public:
 		const float target);
 	
 	string generateTarget();
-	
+	void printContainer(vector<shared_ptr<Chromosome>>* container);
 };
 
 #endif

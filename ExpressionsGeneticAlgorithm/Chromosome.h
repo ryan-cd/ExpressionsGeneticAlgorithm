@@ -16,7 +16,7 @@ public:
 
 	//getters
 	string getBitString();
-	unsigned int getFitness();
+	float getFitness();
 	
 	//mutators
 	void setFitness(float newFitness);
