@@ -20,7 +20,7 @@ private:
 
 	void init();
 	void assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer);
-	vector<int> chrmsToBreed();
+	pair<int, int> chooseChrms(vector<shared_ptr<Chromosome>>* container);
 	void mutateChrm(shared_ptr<Chromosome> chromosome);
 	void createGeneration();
 

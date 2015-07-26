@@ -114,5 +114,5 @@ float GeneManager::getFitness(Chromosome chromosome)
 	if (currentResult == this->target)
 		return FLT_MAX;
 	else 
-		return 1/(this->target - currentResult);
+		return abs(1/(this->target - currentResult));
 }
