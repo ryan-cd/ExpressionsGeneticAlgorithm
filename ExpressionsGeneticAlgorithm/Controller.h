@@ -8,6 +8,7 @@
 class Controller
 {
 private:
+	typedef vector<shared_ptr<Chromosome>> container;
 	shared_ptr<GeneManager> geneManager;
 	unsigned int maxPopulationSize;
 	unsigned int crossoverRate;

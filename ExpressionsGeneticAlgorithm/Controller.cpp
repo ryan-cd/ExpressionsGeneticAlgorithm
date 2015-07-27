@@ -38,6 +38,13 @@ string Controller::generateTarget()
 	cout << "\n mutating " << (*chrmContainer1[0]).getBitString() << "\n mutated: " << (*(mutateChrm(chrmContainer1[0]))).getBitString();
 	cout << "\n mutating " << (*geneManager).toExpressionString((*chrmContainer1[0]).getBitString()) << "\n mutated: " << (*geneManager).toExpressionString((*(mutateChrm(chrmContainer1[0]))).getBitString());
 
+	/*container* currentContainer = &chrmContainer1;
+	container* nextContainer = &chrmContainer2;
+	while ((*nextContainer).size() < (*currentContainer).size())
+	{
+		chrmContainerIndexes = chooseChrms(currentContainer);
+	}*/
+
 	return "\n\nHello world!";
 }
 
