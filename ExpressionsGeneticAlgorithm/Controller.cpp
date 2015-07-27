@@ -34,9 +34,11 @@ string Controller::generateTarget()
 	printContainer(&chrmContainer1);
 	pair<int, int> chrmContainerIndexes = chooseChrms(&chrmContainer1);
 	cout << "\nfirst: " << chrmContainerIndexes.first << " second: " << chrmContainerIndexes.second;
-	cout << "\nnew chrm: " << (*geneManager).toExpressionString(breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second]).getBitString());
-	
-	return "Hello world!";
+	cout << "\nnew chrm: " << (*geneManager).toExpressionString((*breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second])).getBitString());
+	cout << "\n mutating " << (*chrmContainer1[0]).getBitString() << "\n mutated: " << (*(mutateChrm(chrmContainer1[0]))).getBitString();
+	cout << "\n mutating " << (*geneManager).toExpressionString((*chrmContainer1[0]).getBitString()) << "\n mutated: " << (*geneManager).toExpressionString((*(mutateChrm(chrmContainer1[0]))).getBitString());
+
+	return "\n\nHello world!";
 }
 
 pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container)
@@ -83,15 +85,29 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 	return returnValue;
 }
 
-Chromosome Controller::breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2)
+shared_ptr<Chromosome> Controller::breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2)
 {
 	//the crossover index guarantees at least one bit will be of chromosome 2
 	int crossoverIndex = int(((float)rand() / (float)RAND_MAX) * (*chromosome1).getBitString().size() - 2);
 	cout << "\n Crossover index: " << crossoverIndex;
-
-	Chromosome returnValue(this->genesPerChromosome, this->geneLength,
+	
+	shared_ptr<Chromosome> returnValue = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength,
 		(*chromosome1).getBitString().substr(0, crossoverIndex + 1) +
 		(*chromosome2).getBitString().substr(crossoverIndex + 1, (*chromosome2).getBitString().size()));
+	return returnValue;
+}
+
+shared_ptr<Chromosome> Controller::mutateChrm(shared_ptr<Chromosome> chromosome)
+{
+	int indexToMutate = (int)(((float)rand() / (float)RAND_MAX) * ((*chromosome).getBitString().size() - 1));
+	cout << "\nmutate index " << indexToMutate << endl;
+	shared_ptr<Chromosome> returnValue;
+
+	returnValue = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength,
+		(*chromosome).getBitString().substr(0, indexToMutate)
+		+ ((*chromosome).getBitString()[indexToMutate] == '0' ? '1' : '0')
+		+ (*chromosome).getBitString().substr(indexToMutate + 1));
+
 	return returnValue;
 }
 

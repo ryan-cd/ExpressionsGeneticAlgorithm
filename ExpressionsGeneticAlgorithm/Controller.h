@@ -21,8 +21,8 @@ private:
 	void init();
 	void assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer);
 	pair<int, int> chooseChrms(vector<shared_ptr<Chromosome>>* container);
-	Chromosome breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2);
-	void mutateChrm(shared_ptr<Chromosome> chromosome);
+	shared_ptr<Chromosome> breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2);
+	shared_ptr<Chromosome> mutateChrm(shared_ptr<Chromosome> chromosome);
 	void createGeneration();
 
 public:
