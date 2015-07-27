@@ -34,6 +34,8 @@ string Controller::generateTarget()
 	printContainer(&chrmContainer1);
 	pair<int, int> chrmContainerIndexes = chooseChrms(&chrmContainer1);
 	cout << "\nfirst: " << chrmContainerIndexes.first << " second: " << chrmContainerIndexes.second;
+	cout << "\nnew chrm: " << (*geneManager).toExpressionString(breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second]).getBitString());
+	
 	return "Hello world!";
 }
 
@@ -78,6 +80,18 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 		if (returnValue.first != -1 && returnValue.second != -1)
 			break;
 	}
+	return returnValue;
+}
+
+Chromosome Controller::breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2)
+{
+	//the crossover index guarantees at least one bit will be of chromosome 2
+	int crossoverIndex = int(((float)rand() / (float)RAND_MAX) * (*chromosome1).getBitString().size() - 2);
+	cout << "\n Crossover index: " << crossoverIndex;
+
+	Chromosome returnValue(this->genesPerChromosome, this->geneLength,
+		(*chromosome1).getBitString().substr(0, crossoverIndex + 1) +
+		(*chromosome2).getBitString().substr(crossoverIndex + 1, (*chromosome2).getBitString().size()));
 	return returnValue;
 }
 

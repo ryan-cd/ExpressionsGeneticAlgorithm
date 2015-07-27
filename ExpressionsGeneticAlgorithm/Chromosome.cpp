@@ -18,6 +18,7 @@ Chromosome::Chromosome(unsigned int genesPerChromosome, unsigned int geneLength,
 	this->bitString = bitString;
 }
 
+
 //getters
 string Chromosome::getBitString()
 {
