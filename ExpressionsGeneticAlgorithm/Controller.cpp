@@ -99,14 +99,19 @@ shared_ptr<Chromosome> Controller::breedChrms(shared_ptr<Chromosome> chromosome1
 
 shared_ptr<Chromosome> Controller::mutateChrm(shared_ptr<Chromosome> chromosome)
 {
-	int indexToMutate = (int)(((float)rand() / (float)RAND_MAX) * ((*chromosome).getBitString().size() - 1));
-	cout << "\nmutate index " << indexToMutate << endl;
-	shared_ptr<Chromosome> returnValue;
+	string newBitString = (*chromosome).getBitString();
 
-	returnValue = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength,
-		(*chromosome).getBitString().substr(0, indexToMutate)
-		+ ((*chromosome).getBitString()[indexToMutate] == '0' ? '1' : '0')
-		+ (*chromosome).getBitString().substr(indexToMutate + 1));
+	for (int i = 0; i < (*chromosome).getBitString().size(); i++)
+	{
+		if ((float)rand() / (float)RAND_MAX <= 0.001)
+		{
+			newBitString[i] = newBitString[i] == '0' ? '1' : '0';
+			cout << "\n !!!mutation at " << i << endl;
+		}
+	}
+	
+	shared_ptr<Chromosome> returnValue = make_shared<Chromosome>(
+		this->genesPerChromosome, this->geneLength, newBitString);
 
 	return returnValue;
 }
