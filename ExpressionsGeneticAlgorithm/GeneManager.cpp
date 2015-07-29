@@ -4,7 +4,7 @@
 GeneManager::GeneManager(float target)
 {
 	this->target = target;
-	this->genesPerChromosome = 9;
+	this->genesPerChromosome = 18;
 	this->geneLength = 4;
 	setTranslations();
 	//cout << endl << "gene manager\n" << toExpressionString("10110010001000100010001000101011") << endl;
