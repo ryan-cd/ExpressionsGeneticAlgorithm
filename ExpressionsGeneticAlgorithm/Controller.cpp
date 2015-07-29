@@ -1,8 +1,8 @@
 #include "Controller.h"
 
 Controller::Controller(const unsigned int maxPopulationSize, 
-	const unsigned int crossoverRate, 
-	const unsigned int mutationRate, 
+	float crossoverRate, 
+	float mutationRate, 
 	const float target)
 {
 	this->geneManager = make_shared<GeneManager>(target);
@@ -12,11 +12,12 @@ Controller::Controller(const unsigned int maxPopulationSize,
 
 	this->genesPerChromosome = (*geneManager).getGenesPerChrm();
 	this->geneLength = (*geneManager).getGeneLength();
+	this->generatedTarget = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength, "");
 	this->generation = 0;
 	
 	//Chromosome chrm(9, "011010100101110001001101001010100001");
-	Chromosome chrm(this->genesPerChromosome, this->geneLength, "001001100000101110010111101110111111");
-	cout << (*geneManager).getFitness(chrm) << endl;
+	//Chromosome chrm(this->genesPerChromosome, this->geneLength, "001001100000101110010111101110111111");
+	//cout << (*geneManager).getFitness(chrm) << endl;
 }
 
 void Controller::init()
@@ -31,21 +32,51 @@ string Controller::generateTarget()
 {
 	init();
 	assignFitnesses(&chrmContainer1);
-	printContainer(&chrmContainer1);
+	//printContainer(&chrmContainer1);
 	pair<int, int> chrmContainerIndexes = chooseChrms(&chrmContainer1);
-	cout << "\nfirst: " << chrmContainerIndexes.first << " second: " << chrmContainerIndexes.second;
-	cout << "\nnew chrm: " << (*geneManager).toExpressionString((*breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second])).getBitString());
-	cout << "\n mutating " << (*chrmContainer1[0]).getBitString() << "\n mutated: " << (*(mutateChrm(chrmContainer1[0]))).getBitString();
-	cout << "\n mutating " << (*geneManager).toExpressionString((*chrmContainer1[0]).getBitString()) << "\n mutated: " << (*geneManager).toExpressionString((*(mutateChrm(chrmContainer1[0]))).getBitString());
+	//cout << "\nfirst: " << chrmContainerIndexes.first << " second: " << chrmContainerIndexes.second;
+	//cout << "\nnew chrm: " << (*geneManager).toExpressionString((*breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second])).getBitString());
+	//cout << "\n mutating " << (*chrmContainer1[0]).getBitString() << "\n mutated: " << (*(mutateChrm(chrmContainer1[0]))).getBitString();
+	//cout << "\n mutating " << (*geneManager).toExpressionString((*chrmContainer1[0]).getBitString()) << "\n mutated: " << (*geneManager).toExpressionString((*(mutateChrm(chrmContainer1[0]))).getBitString());
 
-	/*container* currentContainer = &chrmContainer1;
+	
+	container* currentContainer = &chrmContainer1;
 	container* nextContainer = &chrmContainer2;
-	while ((*nextContainer).size() < (*currentContainer).size())
+	shared_ptr<Chromosome> tempChromosome;
+	
+	
+	while ((*this->generatedTarget).getBitString() == "")
 	{
-		chrmContainerIndexes = chooseChrms(currentContainer);
-	}*/
+		cout << "\nGeneration: " << ++this->generation;
+		while ((*nextContainer).size() < (*currentContainer).size())
+		{
+			do
+			{
+				chrmContainerIndexes = chooseChrms(currentContainer);
+			} while ((float)rand() / (float)RAND_MAX > this->crossoverRate);
+			tempChromosome = breedChrms(
+				(*currentContainer)[chrmContainerIndexes.first],
+				(*currentContainer)[chrmContainerIndexes.second]);
 
-	return "\n\nHello world!";
+			if ((float)rand() / (float)RAND_MAX > this->mutationRate)
+				tempChromosome = mutateChrm(tempChromosome);
+
+			(*nextContainer).push_back(make_shared<Chromosome>(this->genesPerChromosome, this->geneLength, (*tempChromosome).getBitString()));
+		}
+		assignFitnesses(nextContainer);
+		printContainer(nextContainer);
+
+		(*currentContainer).clear();
+		currentContainer = (currentContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
+		nextContainer = (nextContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
+
+		if (this->generation > 500)
+			break;
+	}
+	//delete currentContainer;
+	//delete nextContainer;
+
+	return (*this->geneManager).toExpressionString((*this->generatedTarget).getBitString());
 }
 
 pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container)
@@ -55,7 +86,7 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 	float fitnessSum = 0;
 	float wheelSpin1 = (float)rand() / (float)RAND_MAX;
 	float wheelSpin2 = (float)rand() / (float)RAND_MAX;
-	cout << "\nwheel 1: " << wheelSpin1 << " wheel 2: " << wheelSpin2 << endl;
+	//cout << "\nwheel 1: " << wheelSpin1 << " wheel 2: " << wheelSpin2 << endl;
 	
 	//calculate fitness sum
 	for (int i = 0; i < (*container).size(); i++)
@@ -77,7 +108,7 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 				continue;
 			else 
 			{
-				//todo: makee this check to see if the previous value is the same as the current
+				//todo: make this check to see if the previous value is the same as the current
 				//if so, this section currently would pick a chrm with fitness = 0
 				returnValue.second = i - 1;
 			}
@@ -96,7 +127,7 @@ shared_ptr<Chromosome> Controller::breedChrms(shared_ptr<Chromosome> chromosome1
 {
 	//the crossover index guarantees at least one bit will be of chromosome 2
 	int crossoverIndex = int(((float)rand() / (float)RAND_MAX) * (*chromosome1).getBitString().size() - 2);
-	cout << "\n Crossover index: " << crossoverIndex;
+	//cout << "\n Crossover index: " << crossoverIndex;
 	
 	shared_ptr<Chromosome> returnValue = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength,
 		(*chromosome1).getBitString().substr(0, crossoverIndex + 1) +
@@ -113,7 +144,7 @@ shared_ptr<Chromosome> Controller::mutateChrm(shared_ptr<Chromosome> chromosome)
 		if ((float)rand() / (float)RAND_MAX <= 0.001)
 		{
 			newBitString[i] = newBitString[i] == '0' ? '1' : '0';
-			cout << "\n !!!mutation at " << i << endl;
+			//cout << "\n !!!mutation at " << i << endl;
 		}
 	}
 	
@@ -139,6 +170,9 @@ void Controller::assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer)
 	for (int i = 0; i < (*chrmContainer).size(); i++)
 	{
 		(*(*chrmContainer)[i]).setFitness((*this->geneManager).getFitness((*(*chrmContainer)[i])));
+
+		if ((*(*chrmContainer)[i]).getFitness() == FLT_MAX)
+			this->generatedTarget = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength, (*(*chrmContainer)[i]).getBitString());
 	}
 }
 

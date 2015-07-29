@@ -11,13 +11,14 @@ private:
 	typedef vector<shared_ptr<Chromosome>> container;
 	shared_ptr<GeneManager> geneManager;
 	unsigned int maxPopulationSize;
-	unsigned int crossoverRate;
-	unsigned int mutationRate;
+	float crossoverRate;
+	float mutationRate;
 	unsigned int genesPerChromosome;
 	unsigned int geneLength;
 	unsigned int generation;
 	vector<shared_ptr<Chromosome>> chrmContainer1;
 	vector<shared_ptr<Chromosome>> chrmContainer2;
+	shared_ptr<Chromosome> generatedTarget;
 
 	void init();
 	void assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer);
@@ -28,8 +29,8 @@ private:
 
 public:
 	Controller(const unsigned int maxPopulationSize, 
-		const unsigned int crossoverRate, 
-		const unsigned int mutationRate, 
+		const float crossoverRate, 
+		const float mutationRate, 
 		const float target);
 	
 	string generateTarget();

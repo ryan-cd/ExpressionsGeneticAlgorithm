@@ -7,8 +7,8 @@ using namespace std;
 /// BEGIN GENETICS VARIABLES
 //////
 const unsigned int maxPopulationSize = 10;
-const unsigned int crossoverRate = 0.7;
-const unsigned int mutationRate = 0.001;
+const float crossoverRate = 0.7;
+const float mutationRate = 0.001;
 const int target = 42;
 //////
 /// END GENETICS VARIABLES
