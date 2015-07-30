@@ -9,7 +9,7 @@ using namespace std;
 const unsigned int maxPopulationSize = 10;
 const float crossoverRate = 0.7;
 const float mutationRate = 0.001;
-const int target = 420;
+const int target = 67;
 //////
 /// END GENETICS VARIABLES
 ////////////////////////////////////////
