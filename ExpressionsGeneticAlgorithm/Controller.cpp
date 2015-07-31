@@ -62,7 +62,7 @@ string Controller::generateTarget()
 		currentContainer = (currentContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
 		nextContainer = (nextContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
 
-		if (this->generation > 2000)
+		if (this->generation > 10000)
 			break;
 	}
 
@@ -91,7 +91,17 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 			roulette[i] += roulette[i - 1];
 		
 		if (wheelSpin1 <= roulette[i] && returnValue.first == -1)
+		{
 			returnValue.first = i;
+			//to prevent both spins returning the same value
+			if (i < (*container).size() - 1)
+				continue;
+			else
+			{
+				returnValue.second = i - 1;
+				break;
+			}
+		}
 
 		if (wheelSpin2 <= roulette[i] && returnValue.second == -1)
 			returnValue.second = i;
