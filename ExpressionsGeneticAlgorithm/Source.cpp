@@ -9,7 +9,7 @@ using namespace std;
 const unsigned int maxPopulationSize = 10;
 const float crossoverRate = 0.7;
 const float mutationRate = 0.001;
-const int target = 67;
+const int target = 42;
 //////
 /// END GENETICS VARIABLES
 ////////////////////////////////////////
@@ -23,7 +23,7 @@ int main()
 	Controller controller(maxPopulationSize, crossoverRate, mutationRate, target);
 	string result = controller.generateTarget();
 
-	cout << "Result: " << result;
+	cout << "Result: " << target << " = " << result;
 
 	getchar();
 

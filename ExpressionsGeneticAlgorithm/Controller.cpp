@@ -14,10 +14,6 @@ Controller::Controller(const unsigned int maxPopulationSize,
 	this->geneLength = (*geneManager).getGeneLength();
 	this->generatedTarget = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength, "");
 	this->generation = 0;
-	
-	//Chromosome chrm(9, "011010100101110001001101001010100001");
-	//Chromosome chrm(this->genesPerChromosome, this->geneLength, "001001100000101110010111101110111111");
-	//cout << (*geneManager).getFitness(chrm) << endl;
 }
 
 void Controller::init()
@@ -35,11 +31,6 @@ string Controller::generateTarget()
 	cout << "\nInitial generation: ";
 	printContainer(&chrmContainer1);
 	pair<int, int> chrmContainerIndexes = chooseChrms(&chrmContainer1);
-	//cout << "\nfirst: " << chrmContainerIndexes.first << " second: " << chrmContainerIndexes.second;
-	//cout << "\nnew chrm: " << (*geneManager).toExpressionString((*breedChrms(chrmContainer1[chrmContainerIndexes.first], chrmContainer1[chrmContainerIndexes.second])).getBitString());
-	//cout << "\n mutating " << (*chrmContainer1[0]).getBitString() << "\n mutated: " << (*(mutateChrm(chrmContainer1[0]))).getBitString();
-	//cout << "\n mutating " << (*geneManager).toExpressionString((*chrmContainer1[0]).getBitString()) << "\n mutated: " << (*geneManager).toExpressionString((*(mutateChrm(chrmContainer1[0]))).getBitString());
-
 	
 	container* currentContainer = &chrmContainer1;
 	container* nextContainer = &chrmContainer2;
@@ -71,11 +62,9 @@ string Controller::generateTarget()
 		currentContainer = (currentContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
 		nextContainer = (nextContainer == &chrmContainer1) ? &chrmContainer2 : &chrmContainer1;
 
-		if (this->generation > 1000)
+		if (this->generation > 2000)
 			break;
 	}
-	//delete currentContainer;
-	//delete nextContainer;
 
 	return (*this->geneManager).toExpressionString((*this->generatedTarget).getBitString());
 }
@@ -87,7 +76,6 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 	float fitnessSum = 0;
 	float wheelSpin1 = (float)rand() / (float)RAND_MAX;
 	float wheelSpin2 = (float)rand() / (float)RAND_MAX;
-	//cout << "\nwheel 1: " << wheelSpin1 << " wheel 2: " << wheelSpin2 << endl;
 	
 	//calculate fitness sum
 	for (int i = 0; i < (*container).size(); i++)
@@ -101,26 +89,26 @@ pair<int, int> Controller::chooseChrms(vector<shared_ptr<Chromosome>>* container
 		roulette.push_back((*(*container)[i]).getFitness() / fitnessSum);
 		if (i > 0)
 			roulette[i] += roulette[i - 1];
-
-		if (wheelSpin1 < roulette[i] && returnValue.first == -1)
-		{
+		
+		if (wheelSpin1 <= roulette[i] && returnValue.first == -1)
 			returnValue.first = i;
-			if (i < (*container).size() - 1)
-				continue;
-			else 
-			{
-				//todo: make this check to see if the previous value is the same as the current
-				//if so, this section currently would pick a chrm with fitness = 0
-				returnValue.second = i - 1;
-			}
-		}
 
-		if (wheelSpin2 < roulette[i] && returnValue.second == -1)
+		if (wheelSpin2 <= roulette[i] && returnValue.second == -1)
 			returnValue.second = i;
 
 		if (returnValue.first != -1 && returnValue.second != -1)
 			break;
 	}
+
+	//Note that due to float rounding issues, the comparisons above will
+	//not always know when a spin of 1 is <= what is in the container.
+	//for this reason the return value must be hard set here if it couldn't 
+	//be above
+	if (returnValue.first == -1)
+		returnValue.first = (*container).size() - 1;
+	if (returnValue.second == -1)
+		returnValue.second = (*container).size() - 1;
+
 	return returnValue;
 }
 
@@ -128,7 +116,6 @@ shared_ptr<Chromosome> Controller::breedChrms(shared_ptr<Chromosome> chromosome1
 {
 	//the crossover index guarantees at least one bit will be of chromosome 2
 	int crossoverIndex = int(((float)rand() / (float)RAND_MAX) * ((*chromosome1).getBitString().size() - 2));
-	//cout << "\n Crossover index: " << crossoverIndex;
 	
 	shared_ptr<Chromosome> returnValue = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength,
 		(*chromosome1).getBitString().substr(0, crossoverIndex + 1) +
@@ -145,7 +132,6 @@ shared_ptr<Chromosome> Controller::mutateChrm(shared_ptr<Chromosome> chromosome)
 		if ((float)rand() / (float)RAND_MAX <= 0.001)
 		{
 			newBitString[i] = newBitString[i] == '0' ? '1' : '0';
-			//cout << "\n !!!mutation at " << i << endl;
 		}
 	}
 	
@@ -172,23 +158,10 @@ void Controller::assignFitnesses(vector<shared_ptr<Chromosome>>* chrmContainer)
 	{
 		(*(*chrmContainer)[i]).setFitness((*this->geneManager).getFitness((*(*chrmContainer)[i])));
 
-		if ((*(*chrmContainer)[i]).getFitness() == FLT_MAX)
+		if ((*(*chrmContainer)[i]).getFitness() == (*geneManager).getMaxFitness())
 			this->generatedTarget = make_shared<Chromosome>(this->genesPerChromosome, this->geneLength, (*(*chrmContainer)[i]).getBitString());
 	}
 }
-
-void Controller::createGeneration()
-{
-	cout << "\nGeneration " << ++generation << endl;
-	/*
-	if (generation % 2 != 0)
-		cleanupChrmContainer(&chrmContainer1);
-	else
-		cleanupChrmContainer(&chrmContainer2);*/
-
-	cout << "\n after length is " << chrmContainer1.size() << " length: " << chrmContainer2.size();
-}
-
 
 
 

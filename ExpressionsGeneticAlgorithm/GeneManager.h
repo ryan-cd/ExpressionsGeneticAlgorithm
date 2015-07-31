@@ -9,6 +9,7 @@ private:
 	float target;
 	unsigned int genesPerChromosome;
 	unsigned int geneLength;
+	float maxFitness;
 	vector<pair<string, string>> geneTranslations;
 	void setTranslations();
 
@@ -19,6 +20,7 @@ public:
 	unsigned int getGenesPerChrm();
 	unsigned int getGeneLength();
 	float getFitness(Chromosome chromosome);
+	float getMaxFitness();
 };
 
 #endif

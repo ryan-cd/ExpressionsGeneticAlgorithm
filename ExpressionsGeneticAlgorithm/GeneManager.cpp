@@ -6,11 +6,8 @@ GeneManager::GeneManager(float target)
 	this->target = target;
 	this->genesPerChromosome = 18;
 	this->geneLength = 4;
+	this->maxFitness = FLT_MAX;
 	setTranslations();
-	//cout << endl << "gene manager\n" << toExpressionString("10110010001000100010001000101011") << endl;
-	//cout << endl << "gene manager\n" << toExpressionString("0010001010101110101101110010") << endl;
-	//cout << endl << "gene manager\n" << toExpressionString("011010100101110001001101001010100001") << endl;
-	
 }
 
 void GeneManager::setTranslations()
@@ -106,7 +103,13 @@ float GeneManager::getFitness(Chromosome chromosome)
 		else if (subexpression.substr(subexpression.size() - 2, 1) == "*")
 			currentResult = (currentResult * operand2);
 		else if (subexpression.substr(subexpression.size() - 2, 1) == "/")
+		{
+			//fitness is zero when dividing by 0
+			if (subexpression[subexpression.size() - 1] == '0')
+				return 0;
+
 			currentResult = (currentResult / operand2);
+		}
 		else
 			throw new exception("Subexpression in invalid format"); 
 
@@ -115,4 +118,9 @@ float GeneManager::getFitness(Chromosome chromosome)
 		return FLT_MAX;
 	else 
 		return abs(1/(this->target - currentResult));
+}
+
+float GeneManager::getMaxFitness()
+{
+	return this->maxFitness;
 }

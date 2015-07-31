@@ -25,7 +25,6 @@ private:
 	pair<int, int> chooseChrms(vector<shared_ptr<Chromosome>>* container);
 	shared_ptr<Chromosome> breedChrms(shared_ptr<Chromosome> chromosome1, shared_ptr<Chromosome> chromosome2);
 	shared_ptr<Chromosome> mutateChrm(shared_ptr<Chromosome> chromosome);
-	void createGeneration();
 
 public:
 	Controller(const unsigned int maxPopulationSize, 
